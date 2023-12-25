@@ -20,6 +20,7 @@ config :shelly_influx_importer, ShellyInfluxImporterWeb.Endpoint,
   ]
 
 config :shelly_influx_importer, ShellyInfluxImporter.ConfigManager, config_path: "./"
+config :shelly_influx_importer, ShellyInfluxImporter.Influx, host: "localhost"
 
 # ## SSL Support
 #

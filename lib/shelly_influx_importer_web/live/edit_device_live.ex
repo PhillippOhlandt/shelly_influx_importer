@@ -4,7 +4,6 @@ defmodule ShellyInfluxImporterWeb.EditDeviceLive do
   alias ShellyInfluxImporter.Config
   alias ShellyInfluxImporter.Config.DeviceConfig
   alias ShellyInfluxImporter.ConfigManager
-  alias ShellyInfluxImporter.ShellyDeviceInfo
   alias ShellyInfluxImporter.ShellyDeviceData
   alias ShellyInfluxImporterWeb.DeviceNotFoundError
 

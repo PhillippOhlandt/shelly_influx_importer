@@ -47,7 +47,9 @@ defmodule ShellyInfluxImporter.MixProject do
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, ">= 0.0.0"},
       {:req, "~> 0.4.8"},
-      {:cron, "~> 0.1"}
+      {:cron, "~> 0.1"},
+      {:quantum, "~> 3.5"},
+      {:influxdb, "~> 0.2.1"}
     ]
   end
 

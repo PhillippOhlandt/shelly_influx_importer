@@ -42,7 +42,14 @@ if config_env() == :prod do
       environment variable CONFIG_PATH is missing.
       """
 
-  config :shelly_influx_importer, ShellyInfluxImporterWeb.ConfigManager, config_path: config_path
+  influx_db_host =
+    System.get_env("INFLUX_DB_HOST") ||
+      raise """
+      environment variable INFLUX_DB_HOST is missing.
+      """
+
+  config :shelly_influx_importer, ShellyInfluxImporter.ConfigManager, config_path: config_path
+  config :shelly_influx_importer, ShellyInfluxImporter.Influx, host: influx_db_host
 
   config :shelly_influx_importer, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
 

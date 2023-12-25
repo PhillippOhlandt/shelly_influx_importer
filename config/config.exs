@@ -21,6 +21,12 @@ config :shelly_influx_importer, ShellyInfluxImporterWeb.Endpoint,
   pubsub_server: ShellyInfluxImporter.PubSub,
   live_view: [signing_salt: "jElNMN9V"]
 
+config :shelly_influx_importer, ShellyInfluxImporter.Scheduler,
+  debug_logging: false,
+  jobs: [
+    {"* * * * *", {ShellyInfluxImporter.ShellyDeviceDataImport, :run, []}}
+  ]
+
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",

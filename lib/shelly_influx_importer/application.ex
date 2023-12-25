@@ -3,6 +3,8 @@ defmodule ShellyInfluxImporter.Application do
   # for more information on OTP Applications
   @moduledoc false
 
+  require Logger
+
   use Application
 
   @impl true
@@ -12,9 +14,12 @@ defmodule ShellyInfluxImporter.Application do
       {DNSCluster,
        query: Application.get_env(:shelly_influx_importer, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: ShellyInfluxImporter.PubSub},
+      {Task.Supervisor, name: ShellyInfluxImporter.ShellyDeviceDataImportTaskSupervisor},
       # Start a worker by calling: ShellyInfluxImporter.Worker.start_link(arg)
       # {ShellyInfluxImporter.Worker, arg},
       {ShellyInfluxImporter.ConfigManager, []},
+      setup_influx_db(),
+      ShellyInfluxImporter.Scheduler,
       # Start to serve requests, typically the last entry
       ShellyInfluxImporterWeb.Endpoint
     ]
@@ -31,5 +36,14 @@ defmodule ShellyInfluxImporter.Application do
   def config_change(changed, _new, removed) do
     ShellyInfluxImporterWeb.Endpoint.config_change(changed, removed)
     :ok
+  end
+
+  def setup_influx_db() do
+    {Task,
+     fn ->
+       Process.sleep(1000)
+       Logger.info("Setup InfluxDB")
+       ShellyInfluxImporter.Influx.setup()
+     end}
   end
 end

@@ -19,6 +19,14 @@ defmodule ShellyInfluxImporter.ShellyDeviceInfo do
     }
   end
 
+  def changed?(%__MODULE__{} = info1, %__MODULE__{} = info2) do
+    !(info1.name == info2.name &&
+        info1.address == info2.address &&
+        info1.mac == info2.mac &&
+        info1.type == info2.type &&
+        info1.generation == info2.generation)
+  end
+
   def fetch_info(address) do
     with {:ok, info} <- fetch_gen1_info(address) do
       {:ok, info}
