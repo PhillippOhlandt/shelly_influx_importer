@@ -9,10 +9,12 @@ defmodule ShellyInfluxImporter.Application do
   def start(_type, _args) do
     children = [
       ShellyInfluxImporterWeb.Telemetry,
-      {DNSCluster, query: Application.get_env(:shelly_influx_importer, :dns_cluster_query) || :ignore},
+      {DNSCluster,
+       query: Application.get_env(:shelly_influx_importer, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: ShellyInfluxImporter.PubSub},
       # Start a worker by calling: ShellyInfluxImporter.Worker.start_link(arg)
       # {ShellyInfluxImporter.Worker, arg},
+      {ShellyInfluxImporter.ConfigManager, []},
       # Start to serve requests, typically the last entry
       ShellyInfluxImporterWeb.Endpoint
     ]

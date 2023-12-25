@@ -19,7 +19,7 @@ defmodule ShellyInfluxImporter.MixProject do
   def application do
     [
       mod: {ShellyInfluxImporter.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :observer, :wx]
     ]
   end
 
@@ -46,7 +46,8 @@ defmodule ShellyInfluxImporter.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, ">= 0.0.0"},
-      {:req, "~> 0.4.8"}
+      {:req, "~> 0.4.8"},
+      {:cron, "~> 0.1"}
     ]
   end
 

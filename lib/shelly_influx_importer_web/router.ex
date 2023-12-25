@@ -17,7 +17,11 @@ defmodule ShellyInfluxImporterWeb.Router do
   scope "/", ShellyInfluxImporterWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live_session :default do
+      live "/", HomeLive
+      live "/device/new", NewDeviceLive
+      live "/device/:mac", EditDeviceLive
+    end
   end
 
   # Other scopes may use custom stacks.

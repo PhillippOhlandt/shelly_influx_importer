@@ -19,6 +19,8 @@ config :shelly_influx_importer, ShellyInfluxImporterWeb.Endpoint,
     tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
   ]
 
+config :shelly_influx_importer, ShellyInfluxImporter.ConfigManager, config_path: "./"
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed

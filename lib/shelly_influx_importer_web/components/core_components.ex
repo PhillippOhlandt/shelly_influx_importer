@@ -66,7 +66,7 @@ defmodule ShellyInfluxImporterWeb.CoreComponents do
               phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}
               phx-key="escape"
               phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
-              class="shadow-zinc-700/10 ring-zinc-700/10 relative hidden rounded-2xl bg-white p-14 shadow-lg ring-1 transition"
+              class="shadow-zinc-700/10 ring-zinc-700/10 relative hidden rounded bg-white p-6 shadow-lg ring-1 transition"
             >
               <div class="absolute top-6 right-5">
                 <button
@@ -230,7 +230,7 @@ defmodule ShellyInfluxImporterWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 rounded-lg bg-zinc-900 hover:bg-zinc-700 py-2 px-3",
+        "phx-submit-loading:opacity-75 rounded-lg bg-zinc-900 hover:bg-zinc-700 py-1 px-3",
         "text-sm font-semibold leading-6 text-white active:text-white/80",
         @class
       ]}
@@ -239,6 +239,31 @@ defmodule ShellyInfluxImporterWeb.CoreComponents do
       <%= render_slot(@inner_block) %>
     </button>
     """
+  end
+
+  @doc """
+  Generate a checkbox group for device data with shown data values.
+  """
+  attr :id, :any
+  attr :name, :any
+  attr :label, :string, default: nil
+
+  attr :field, Phoenix.HTML.FormField,
+    doc: "a form field struct retrieved from the form, for example: @form[:options]"
+
+  attr :errors, :list, default: []
+  attr :required, :boolean, default: false
+  attr :options, :list, doc: "A list of tuple in the form of {data_field, last_value}"
+  attr :rest, :global, include: ~w(disabled form readonly)
+  attr :class, :string, default: nil
+
+  def device_data_checkgroup(assigns) do
+    new_assigns =
+      assigns
+      |> assign(:multiple, true)
+      |> assign(:type, "device_data_checkgroup")
+
+    input(new_assigns)
   end
 
   @doc """
@@ -273,7 +298,8 @@ defmodule ShellyInfluxImporterWeb.CoreComponents do
 
   attr :type, :string,
     default: "text",
-    values: ~w(checkbox color date datetime-local email file hidden month number password
+    values:
+      ~w(checkbox device_data_checkgroup color date datetime-local email file hidden month number password
                range radio search select tel text textarea time url week)
 
   attr :field, Phoenix.HTML.FormField,
@@ -321,6 +347,40 @@ defmodule ShellyInfluxImporterWeb.CoreComponents do
         />
         <%= @label %>
       </label>
+      <.error :for={msg <- @errors}><%= msg %></.error>
+    </div>
+    """
+  end
+
+  def input(%{type: "device_data_checkgroup"} = assigns) do
+    ~H"""
+    <div phx-feedback-for={@name} class="text-sm">
+      <.label for={@id}><%= @label %></.label>
+      <div class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm px-2 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        <div class="grid grid-cols-1 text-sm items-baseline">
+          <input type="hidden" name={@name} value="" />
+
+          <label
+            :for={{data_label, data_value} <- @options}
+            for={"#{@name}-#{data_label}"}
+            class="grid gap-x-4 grid-cols-[1fr_auto] px-1 py-2 font-medium text-gray-700 cursor-pointer border-zinc-100 border-b last:border-b-0 hover:bg-zinc-100"
+          >
+            <div>
+              <input
+                type="checkbox"
+                id={"#{@name}-#{data_label}"}
+                name={@name}
+                value={data_label}
+                checked={data_label in @value}
+                class="mr-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 transition duration-150 ease-in-out"
+                {@rest}
+              />
+              <%= data_label %>
+            </div>
+            <div><%= data_value %></div>
+          </label>
+        </div>
+      </div>
       <.error :for={msg <- @errors}><%= msg %></.error>
     </div>
     """
@@ -409,7 +469,7 @@ defmodule ShellyInfluxImporterWeb.CoreComponents do
 
   def error(assigns) do
     ~H"""
-    <p class="mt-3 flex gap-3 text-sm leading-6 text-rose-600 phx-no-feedback:hidden">
+    <p class="mt-3 flex gap-3 text-sm leading-6 text-rose-700 phx-no-feedback:hidden">
       <.icon name="hero-exclamation-circle-mini" class="mt-0.5 h-5 w-5 flex-none" />
       <%= render_slot(@inner_block) %>
     </p>
