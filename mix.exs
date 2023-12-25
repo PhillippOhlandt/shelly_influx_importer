@@ -4,7 +4,7 @@ defmodule ShellyInfluxImporter.MixProject do
   def project do
     [
       app: :shelly_influx_importer,
-      version: "0.1.0",
+      version: "0.1.1",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
@@ -19,7 +19,7 @@ defmodule ShellyInfluxImporter.MixProject do
   def application do
     [
       mod: {ShellyInfluxImporter.Application, []},
-      extra_applications: [:logger, :runtime_tools, :observer, :wx]
+      extra_applications: [:logger, :runtime_tools]
     ]
   end
 
