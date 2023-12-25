@@ -21,7 +21,8 @@ defmodule ShellyInfluxImporter.Application do
       setup_influx_db(),
       ShellyInfluxImporter.Scheduler,
       # Start to serve requests, typically the last entry
-      ShellyInfluxImporterWeb.Endpoint
+      ShellyInfluxImporterWeb.Endpoint,
+      :systemd.ready()
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

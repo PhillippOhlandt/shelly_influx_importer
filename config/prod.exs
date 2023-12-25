@@ -11,5 +11,10 @@ config :shelly_influx_importer, ShellyInfluxImporterWeb.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
+config :logger,
+  backends: [],
+  handle_otp_reports: false,
+  handle_sasl_reports: false
+
 # Runtime production configuration, including reading
 # of environment variables, is done on config/runtime.exs.

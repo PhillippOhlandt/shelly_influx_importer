@@ -49,7 +49,8 @@ defmodule ShellyInfluxImporter.MixProject do
       {:req, "~> 0.4.8"},
       {:cron, "~> 0.1"},
       {:quantum, "~> 3.5"},
-      {:influxdb, "~> 0.2.1"}
+      {:influxdb, "~> 0.2.1"},
+      {:systemd, "~> 0.6"}
     ]
   end
 
